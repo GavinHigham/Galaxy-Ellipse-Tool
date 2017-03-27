@@ -9,3 +9,6 @@ Modes:
 - *spacing*, adjust spacing between each successive ellipse major axis in pixels
 -	*rotation*, adjust rotational offset between each successive ellipse in radians
 -	*squash*, adjust size of minor axis relative to major axis
+
+Demonstration:
+https://youtu.be/qR4oPYhbthc
