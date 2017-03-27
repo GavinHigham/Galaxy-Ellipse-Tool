@@ -26,12 +26,18 @@ function love.load()
 end
 
 function getCurrent(setting)
+	local current = settings[setting]
+	local offset = 0
+
 	if mousePressed and modes[modeIndex] == setting then
 		local x, y = love.mouse.getPosition()
-		return settings[setting] + (x - mousePressed.x) * scales[setting]
-	else
-		return settings[setting]
+		offset = (x - mousePressed.x) * scales[setting]
 	end
+
+	if setting ~= "rotation" then --Don't allow negative values for anything other than rotation.
+		return math.max(0, current + offset)
+	end
+	return current + offset
 end
 
 function love.mousepressed(x, y, button)
@@ -84,9 +90,19 @@ function love.draw()
 end
 
 function drawUI()
+	local mode = modes[modeIndex]
+	local blueish = {100, 150, 200}
+	local whiteish = {250, 255, 255}
+	
 	love.graphics.setColor(0, 0, 0, 255)
 	love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), 16)
-	love.graphics.setColor(200, 250, 200)
-	local mode = modes[modeIndex]
-	love.graphics.print("Drag left and right to change ellipse " .. mode .. ". Press 'm' to change mode and 'p' to print values to terminal.")
+	love.graphics.setColor(255, 255, 255)
+	love.graphics.print({
+		blueish, "Drag left and right to change ellipse ",
+		whiteish, mode,
+		blueish, ". Press ",
+		whiteish, "'m'",
+		blueish, " to change mode and ",
+		whiteish, "'p'",
+		blueish, " to print values to terminal."})
 end
